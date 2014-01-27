@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Loterias de Navidad</string>
+    <string name="action_settings">Acerca de&#8230;</string>
+    <string name="resumenNavidad">Resultados de la Lotería de Navidad</string>
+    <string name="buscarNavidad">Buscar Nº de la Lotería de Navidad</string>
+    <string name="resumenNino">Resultados de la Lotería del Niño</string>
+    <string name="buscarNino">Buscar Nº de la Lotería del Niño</string>
+    <string name="title_activity_resultados_navidad">Resultados de la Lotería de Navidad</string>
+    <string name="premioGordo">Premio Gordo: </string>
+    <string name="segundoPremio">Segundo Premio: </string>
+    <string name="tercerPremio">Tercer Premio: </string>
+    <string name="cuartoPremio">Cuarto Premio: </string>
+    <string name="quintoPremio">Quinto Premio: </string>
+    <string name="title_activity_resumen_navidad">Resultados de la Lotería de Navidad</string>
+    <string name="title_activity_busqueda">Buscar Nº</string>
+    <string name="title_activity_resumen_nino">Resultados de la Loteria del Nino</string>
+    <string name="addNumber">Nº del decimo</string>
+    <string name="buscar">Buscar</string>
+    <string name="limpiar">Limpiar</string>
+    <string name="primerPremio">Primer Premio: </string>
+    <string name="reintegro">Reintegros: </string>
+    <string name="titulo">Lotería de Navidad</string>
+    <string name="acercaDe"><![CDATA[<center>Creado por: Juan Carlos Prieto Silos<br><a href="mailto:JuanC.Prieto.Silos@gmail.com?subject=Loterias_Navidad_Android">JuanC.Prieto.Silos@gmail.com</a><br>Este programa hace uso de la API de <a href="http://servicios.elpais.com">El Pais</a> para la comprobacion de los numero premiados.</center>]]></string>
+	<string name="fraccionPrimePremio">Fracción del Primer Premio: </string>
+	<string name="seriePrimePremio">Serie del Primer Premio: </string>
+	<string name="extraccion3">Extracciones de 2 cifras: </string>
+	<string name="extraccion2">Extracciones de 3 cifras: </string>
+    
+</resources>
