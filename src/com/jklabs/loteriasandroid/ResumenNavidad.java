@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.jklabs.loteriasandroid.R.id;
 import com.jklabs.loteriaselpais.Conexion;
 import com.jklabs.loteriaselpais.ResultadosNavidad;
@@ -138,6 +139,18 @@ public class ResumenNavidad extends Activity {
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance(this).activityStart(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 
 	/**
