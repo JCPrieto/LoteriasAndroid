@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jklabs.loteriasandroid"
     android:versionCode="1"
-    android:versionName="1.2" >
+    android:versionName="1.2.1">
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -26,24 +26,21 @@
         </activity>
         <activity
             android:name="com.jklabs.loteriasandroid.Busqueda"
-            android:label="@string/title_activity_busqueda"
-            android:parentActivityName="com.jklabs.loteriasandroid.MainActivity" >
+            android:label="@string/title_activity_busqueda">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jklabs.loteriasandroid.MainActivity" />
         </activity>
         <activity
             android:name="com.jklabs.loteriasandroid.ResumenNavidad"
-            android:label="@string/title_activity_resumen_navidad"
-            android:parentActivityName="com.jklabs.loteriasandroid.MainActivity" >
+            android:label="@string/title_activity_resumen_navidad">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jklabs.loteriasandroid.MainActivity" />
         </activity>
         <activity
             android:name="com.jklabs.loteriasandroid.ResumenNino"
-            android:label="@string/title_activity_resumen_nino"
-            android:parentActivityName="com.jklabs.loteriasandroid.MainActivity" >
+            android:label="@string/title_activity_resumen_nino">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jklabs.loteriasandroid.MainActivity" />
