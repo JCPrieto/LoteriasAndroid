@@ -25,7 +25,10 @@
     <string name="acercaDe"><![CDATA[<center>Creado por: Juan Carlos Prieto Silos<br><a href="mailto:JuanC.Prieto.Silos@gmail.com?subject=Loterias_Navidad_Android">JuanC.Prieto.Silos@gmail.com</a><br>Este programa hace uso de la API de <a href="http://servicios.elpais.com">El Pais</a> para la comprobacion de los numero premiados.</center>]]></string>
 	<string name="fraccionPrimePremio">Fracción del Primer Premio: </string>
 	<string name="seriePrimePremio">Serie del Primer Premio: </string>
-	<string name="extraccion3">Extracciones de 2 cifras: </string>
-	<string name="extraccion2">Extracciones de 3 cifras: </string>
-    
+    <string name="extraccion3">Extracciones de 3 cifras: </string>
+    <string name="extraccion2">Extracciones de 2 cifras: </string>
+    <string name="cantidadJugada">Cantidad Jugada:</string>
+    <string name="euros">€</string>
+    <string name="extraccion4">Extracciones de 4 cifras:</string>
+
 </resources>

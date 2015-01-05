@@ -1,8 +1,5 @@
 package com.jklabs.loteriasandroid;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,11 +13,13 @@ import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
 import com.google.analytics.tracking.android.EasyTracker;
 import com.jklabs.loteriasandroid.R.id;
 import com.jklabs.loteriaselpais.Conexion;
 import com.jklabs.loteriaselpais.ResultadosNino;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ResumenNino extends Activity {
 
@@ -31,19 +30,14 @@ public class ResumenNino extends Activity {
 	 * consulta.
 	 */
 	private void actualizarValores() {
-		// TODO Auto-generated method stub
 		TextView primero = (TextView) this.findViewById(id.valorPrimero);
 		primero.setText(res.getPrimero());
-		TextView fraccPrimero = (TextView) this
-				.findViewById(id.valorFraccionPrimero);
-		fraccPrimero.setText(res.getFraccionPrimero());
-		TextView seriePrimero = (TextView) this
-				.findViewById(id.valorSeriePrimero);
-		seriePrimero.setText(res.getSeriePrimero());
 		TextView segundo = (TextView) this.findViewById(id.valorSegundo);
 		segundo.setText(res.getSegundo());
 		TextView tercero = (TextView) this.findViewById(id.valorTercero);
 		tercero.setText(res.getTercero());
+		TextView ext4 = (TextView) this.findViewById(id.valorExt4);
+		ext4.setText(trataArray(res.getExtraccionCuatro()));
 		TextView ext3 = (TextView) this.findViewById(id.valorExt3);
 		ext3.setText(trataArray(res.getExtraccionTres()));
 		TextView ext2 = (TextView) this.findViewById(id.valorExt2);
@@ -63,12 +57,11 @@ public class ResumenNino extends Activity {
 	}
 
 	private void cargarDatos() {
-		// TODO Auto-generated method stub
 		Conexion c = new Conexion("Nino", "resumen");
-		while (!c.consulta()) {
+		if (c.consulta()) {
+			res = new ResultadosNino(c.getResultado());
+			actualizarValores();
 		}
-		res = new ResultadosNino(c.getResultado());
-		actualizarValores();
 	}
 
 	/**
@@ -166,7 +159,11 @@ public class ResumenNino extends Activity {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void setupActionBar() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			getActionBar().setDisplayHomeAsUpEnabled(true);
+			try {
+				getActionBar().setDisplayHomeAsUpEnabled(true);
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -178,7 +175,6 @@ public class ResumenNino extends Activity {
 	 * @return String con los numeros
 	 */
 	private CharSequence trataArray(String[] extraccionTres) {
-		// TODO Auto-generated method stub
 		String res = "";
 		for (int i = 0; i < extraccionTres.length - 1; i++) {
 			res = res.concat(extraccionTres[i] + ", ");

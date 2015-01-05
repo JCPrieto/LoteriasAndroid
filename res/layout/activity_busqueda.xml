@@ -16,31 +16,77 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp" >
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/textView1"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/addNumber"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_gravity="left"
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/valorNumero"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="number"
-                android:maxLength="5" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp">
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/addNumber"
+                        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+                    <EditText
+                        android:id="@+id/valorNumero"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="5"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        android:numeric="integer"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cantidadJugada"
+                        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+                    <EditText
+                        android:id="@+id/valorCantidad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="3"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:numeric="decimal"
+                        android:text="20"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/euros"
+                        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/button1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
                 android:onClick="buscar"
-                android:text="@string/buscar" />
+                android:text="@string/buscar"/>
+
         </LinearLayout>
 
         <ScrollView

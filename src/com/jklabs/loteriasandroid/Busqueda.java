@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.google.analytics.tracking.android.EasyTracker;
 import com.jklabs.loteriasandroid.R.id;
 import com.jklabs.loteriaselpais.Conexion;
@@ -27,14 +26,23 @@ public class Busqueda extends Activity {
 	public void buscar(View view) {
 		TextView numero = (TextView) this.findViewById(id.valorNumero);
 		TextView resultado = (TextView) this.findViewById(id.resultados);
+		TextView txt_cantidad = (TextView) this.findViewById(id.valorCantidad);
 		String num = numero.getText().toString();
+		double cantidad;
+		if (valido(txt_cantidad.getText().toString())) {
+			cantidad = Double.parseDouble(txt_cantidad.getText().toString());
+		} else {
+			cantidad = 20;
+		}
 		numero.setText("");
 		if (valido(num)) {
 			Conexion c = new Conexion(tipo, num);
 			if (c.consulta()) {
 				com.jklabs.loteriaselpais.Busqueda dec = new com.jklabs.loteriaselpais.Busqueda(
 						c.getResultado());
-				resultado.append(dec.toString() + "\n");
+				double premio = (dec.getPremio() / 20D) * cantidad;
+				premio = Math.round((premio * 100D) / 100D);
+				resultado.append("Nº: " + num + " - " + premio + "€\n");
 			} else {
 				resultado.append("Hay un problema con el sevidor\n");
 			}
@@ -47,8 +55,10 @@ public class Busqueda extends Activity {
 	public void limpiar(View view) {
 		TextView numero = (TextView) this.findViewById(id.valorNumero);
 		TextView resultado = (TextView) this.findViewById(id.resultados);
+		TextView cantidad_txt = (TextView) this.findViewById(id.valorCantidad);
 		numero.setText("");
 		resultado.setText("");
+		cantidad_txt.setText("20");
 	}
 
 	@Override
@@ -122,12 +132,15 @@ public class Busqueda extends Activity {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void setupActionBar() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			getActionBar().setDisplayHomeAsUpEnabled(true);
+			try {
+				getActionBar().setDisplayHomeAsUpEnabled(true);
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private boolean valido(CharSequence num) {
-		// TODO Auto-generated method stub
 		return num.length() > 0;
 	}
 
