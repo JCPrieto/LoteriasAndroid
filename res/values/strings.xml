@@ -30,5 +30,8 @@
     <string name="cantidadJugada">Cantidad Jugada:</string>
     <string name="euros">€</string>
     <string name="extraccion4">Extracciones de 4 cifras:</string>
+    <string name="cantidadBuscadorDefault">20</string>
+    <string name="ultimaActualizacion">Ultima actualización: %1$s</string>
+    <string name="actualizandoDatos">Actualizando Datos</string>
 
 </resources>

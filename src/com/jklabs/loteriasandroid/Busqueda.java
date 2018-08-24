@@ -17,33 +17,35 @@ import android.view.View;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.jklabs.loteriasandroid.R.id;
-import com.jklabs.loteriaselpais.Conexion;
+import es.jklabs.lib.loteria.conexion.Conexion;
+import es.jklabs.lib.loteria.enumeradores.Sorteo;
+
+import java.io.IOException;
 
 public class Busqueda extends Activity {
 
-	private String tipo;
+	private Sorteo tipo;
 
 	public void buscar(View view) {
 		TextView numero = (TextView) this.findViewById(id.valorNumero);
 		TextView resultado = (TextView) this.findViewById(id.resultados);
-		TextView txt_cantidad = (TextView) this.findViewById(id.valorCantidad);
+		TextView txtCantidad = (TextView) this.findViewById(id.valorCantidad);
 		String num = numero.getText().toString();
 		double cantidad;
-		if (valido(txt_cantidad.getText().toString())) {
-			cantidad = Double.parseDouble(txt_cantidad.getText().toString());
+		if (valido(txtCantidad.getText().toString())) {
+			cantidad = Double.parseDouble(txtCantidad.getText().toString());
 		} else {
 			cantidad = 20;
 		}
 		numero.setText("");
 		if (valido(num)) {
-			Conexion c = new Conexion(tipo, num);
-			if (c.consulta()) {
-				com.jklabs.loteriaselpais.Busqueda dec = new com.jklabs.loteriaselpais.Busqueda(
-						c.getResultado());
-				double premio = (dec.getPremio() / 20D) * cantidad;
-				premio = Math.round((premio * 100D) / 100D);
+			Conexion c = new Conexion();
+			double premio;
+			try {
+				premio = Math.round(c.getPremio(tipo, num).getCantidad() * cantidad);
 				resultado.append("Nº: " + num + " - " + premio + "€\n");
-			} else {
+			} catch (IOException e) {
+				e.printStackTrace();
 				resultado.append("Hay un problema con el sevidor\n");
 			}
 		} else {
@@ -55,10 +57,10 @@ public class Busqueda extends Activity {
 	public void limpiar(View view) {
 		TextView numero = (TextView) this.findViewById(id.valorNumero);
 		TextView resultado = (TextView) this.findViewById(id.resultados);
-		TextView cantidad_txt = (TextView) this.findViewById(id.valorCantidad);
+		TextView cantidadTxt = (TextView) this.findViewById(id.valorCantidad);
 		numero.setText("");
 		resultado.setText("");
-		cantidad_txt.setText("20");
+		cantidadTxt.setText(R.string.cantidadBuscadorDefault);
 	}
 
 	@Override
@@ -68,7 +70,7 @@ public class Busqueda extends Activity {
 		// Show the Up button in the action bar.
 		setupActionBar();
 		Intent intent = getIntent();
-		tipo = intent.getStringExtra("Tipo");
+		tipo = (Sorteo) intent.getSerializableExtra("Tipo");
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 					.permitAll().build();

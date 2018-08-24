@@ -11,21 +11,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.google.analytics.tracking.android.EasyTracker;
 import com.jklabs.loteriasandroid.R.id;
+import es.jklabs.lib.loteria.enumeradores.Sorteo;
 
 public class MainActivity extends Activity {
 
 	public void cargarBuscarNavidad(View view) {
 		Intent intent = new Intent(this, Busqueda.class);
-		intent.putExtra("Tipo", "Navidad");
+		intent.putExtra("Tipo", Sorteo.NAVIDAD);
 		startActivity(intent);
 	}
 
 	public void cargarBuscarNino(View view) {
 		Intent intent = new Intent(this, Busqueda.class);
-		intent.putExtra("Tipo", "Nino");
+		intent.putExtra("Tipo", Sorteo.NINO);
 		startActivity(intent);
 	}
 

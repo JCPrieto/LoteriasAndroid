@@ -15,15 +15,18 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.jklabs.loteriasandroid.R.id;
-import com.jklabs.loteriaselpais.Conexion;
-import com.jklabs.loteriaselpais.ResultadosNino;
+import com.jklabs.loteriasandroid.utilidades.UtilidadesEstadoSorteo;
+import com.jklabs.loteriasandroid.utilidades.UtilidadesFecha;
+import es.jklabs.lib.loteria.conexion.Conexion;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ResumenNino extends Activity {
 
-	private ResultadosNino res;
+	private es.jklabs.lib.loteria.model.nino.ResumenNino res;
 
 	/**
 	 * Actualizamos los valores de las etiquetas en funcion del resultado de la
@@ -37,29 +40,30 @@ public class ResumenNino extends Activity {
 		TextView tercero = (TextView) this.findViewById(id.valorTercero);
 		tercero.setText(res.getTercero());
 		TextView ext4 = (TextView) this.findViewById(id.valorExt4);
-		ext4.setText(trataArray(res.getExtraccionCuatro()));
+		ext4.setText(StringUtils.join(res.getCuatroCifras(), ", "));
 		TextView ext3 = (TextView) this.findViewById(id.valorExt3);
-		ext3.setText(trataArray(res.getExtraccionTres()));
+		ext3.setText(StringUtils.join(res.getTresCifras(), ", "));
 		TextView ext2 = (TextView) this.findViewById(id.valorExt2);
-		ext2.setText(trataArray(res.getExtraccionDos()));
+		ext2.setText(StringUtils.join(res.getDosCifras(), ", "));
 		TextView reintegro = (TextView) this.findViewById(id.valorReintegro);
-		reintegro.setText(trataArray(res.getReintegros()));
+		reintegro.setText(StringUtils.join(res.getReintegros(), ", "));
 		TextView estado = (TextView) this.findViewById(id.estado);
-		estado.setText(res.getEstado());
+		estado.setText(UtilidadesEstadoSorteo.getHumanReadable(res.getEstado()));
 		TextView fecha = (TextView) this.findViewById(id.fecha);
-		fecha.setText("Ultima actualización:" + res.getFecha());
+		fecha.setText(getString(R.string.ultimaActualizacion,
+				UtilidadesFecha.getHumanReadable(res.getFechaActualizacionAndroid())));
 		TextView pdf = (TextView) this.findViewById(id.pdf);
-		if (res.getPDF().length() > 0) {
-			pdf.setText(Html.fromHtml("<a href=\"" + res.getPDF()
+		if (res.getUrlPDF().length() > 0) {
+			pdf.setText(Html.fromHtml("<a href=\"" + res.getUrlPDF()
 					+ "\">Descargar PDF con los resultados de Sorteo</a>"));
 			pdf.setMovementMethod(LinkMovementMethod.getInstance());
 		}
 	}
 
-	private void cargarDatos() {
-		Conexion c = new Conexion("Nino", "resumen");
-		if (c.consulta()) {
-			res = new ResultadosNino(c.getResultado());
+	private void cargarDatos() throws IOException {
+		Conexion con = new Conexion();
+		res = con.getResumenNino();
+		if (res != null) {
 			actualizarValores();
 		}
 	}
@@ -94,7 +98,11 @@ public class ResumenNino extends Activity {
 
 					@Override
 					public void run() {
-						cargarDatos();
+						try {
+							cargarDatos();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 
 				});
@@ -167,19 +175,4 @@ public class ResumenNino extends Activity {
 		}
 	}
 
-	/**
-	 * Convierte un array de string en una cadena
-	 * 
-	 * @param extraccionTres
-	 *            Array que contiene los numeros
-	 * @return String con los numeros
-	 */
-	private CharSequence trataArray(String[] extraccionTres) {
-		String res = "";
-		for (int i = 0; i < extraccionTres.length - 1; i++) {
-			res = res.concat(extraccionTres[i] + ", ");
-		}
-		res = res.concat(extraccionTres[extraccionTres.length - 1]);
-		return res;
-	}
 }

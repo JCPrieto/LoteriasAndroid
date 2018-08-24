@@ -1,8 +1,5 @@
 package com.jklabs.loteriasandroid;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,18 +15,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.google.analytics.tracking.android.EasyTracker;
 import com.jklabs.loteriasandroid.R.id;
-import com.jklabs.loteriaselpais.Conexion;
-import com.jklabs.loteriaselpais.ResultadosNavidad;
+import com.jklabs.loteriasandroid.utilidades.UtilidadesEstadoSorteo;
+import com.jklabs.loteriasandroid.utilidades.UtilidadesFecha;
+import es.jklabs.lib.loteria.conexion.Conexion;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ResumenNavidad extends Activity {
 
-	private ResultadosNavidad res;
+	private es.jklabs.lib.loteria.model.navidad.ResumenNavidad res;
 
 	private void actualizarValores() {
-		// TODO Auto-generated method stub
 		TextView gordo = (TextView) this.findViewById(id.valorGordo);
 		gordo.setText(res.getGordo());
 		TextView segundo = (TextView) this.findViewById(id.valorSegundoNavidad);
@@ -37,32 +38,30 @@ public class ResumenNavidad extends Activity {
 		TextView tercero = (TextView) this.findViewById(id.valorTercero);
 		tercero.setText(res.getTercero());
 		TextView cuarto = (TextView) this.findViewById(id.valorCuarto);
-		cuarto.setText(res.getCuarto1() + " - " + res.getCuarto2());
+		StringUtils.join(res.getCuarto(), " - ");
+		cuarto.setText(StringUtils.join(res.getCuarto(), " - "));
 		TextView quinto = (TextView) this.findViewById(id.valorQuinto);
-		quinto.setText(res.getQuinto1() + " - " + res.getQuinto2() + " - "
-				+ res.getQuinto3() + " - " + res.getQuinto4() + " - "
-				+ res.getQuinto5() + " - " + res.getQuinto6() + " - "
-				+ res.getQuinto7() + " - " + res.getQuinto8());
+		quinto.setText(StringUtils.join(res.getQuinto(), " - "));
 		TextView estado = (TextView) this.findViewById(id.estadoSorteoNavidad);
-		estado.setText(res.getEstado());
+		estado.setText(UtilidadesEstadoSorteo.getHumanReadable(res.getEstado()));
 		TextView fecha = (TextView) this
 				.findViewById(id.actualizacionSorteoNavidad);
-		fecha.setText("Ultima actualización:" + res.getFecha());
+		fecha.setText(getString(R.string.ultimaActualizacion,
+				UtilidadesFecha.getHumanReadable(res.getFechaActualizacionAndroid())));
 		TextView pdf = (TextView) this.findViewById(id.pdfSorteoNavidad);
-		if (res.getPDF().length() > 0) {
-			pdf.setText(Html.fromHtml("<a href=\"" + res.getPDF()
+		if (res.getUrlPDF().length() > 0) {
+			pdf.setText(Html.fromHtml("<a href=\"" + res.getUrlPDF()
 					+ "\">Descargar PDF con los resultados de Sorteo</a>"));
 			pdf.setMovementMethod(LinkMovementMethod.getInstance());
 		}
 	}
 
-	private void cargarDatos() {
-		// TODO Auto-generated method stub
-		Conexion c = new Conexion("Navidad", "resumen");
-		while (!c.consulta()) {
+	private void cargarDatos() throws IOException {
+		Conexion con = new Conexion();
+		res = con.getResumenNavidad();
+		if (res != null) {
+			actualizarValores();
 		}
-		res = new ResultadosNavidad(c.getResultado());
-		actualizarValores();
 	}
 
 	@Override
@@ -91,8 +90,12 @@ public class ResumenNavidad extends Activity {
 					@Override
 					public void run() {
 						progress.setVisibility(View.GONE);
-						actu.setText("Actualizando Datos");
-						cargarDatos();
+						actu.setText(R.string.actualizandoDatos);
+						try {
+							cargarDatos();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 						progress.setVisibility(View.INVISIBLE);
 						actu.setText("");
 					}
